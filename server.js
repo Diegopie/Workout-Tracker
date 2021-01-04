@@ -1,4 +1,5 @@
-const express = require("express")
+const express = require("express");
+const mongoose = require('mongoose');
 
 
 const PORT = process.env.PORT || 3001
@@ -13,7 +14,12 @@ app.use(express.static("public"));
 require("./routes/html-routes.js")(app);
 require("./routes/api-routes.js")(app);
 
-require('./config/db')();
+mongoose.connect(process.env.MONGODB_URI || "mongodb://localhost/workout", {
+  useNewUrlParser: true,
+  useUnifiedTopology: true,
+  useCreateIndex: true,
+  useFindAndModify: false,
+});
 
 
 app.listen(PORT, () => {
